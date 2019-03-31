@@ -1,0 +1,86 @@
+body{
+    background: url("../images/backcooker.jpg");
+    background-size:100% 100%;
+    background-attachment: fixed;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*flex-direction: column;*/
+}
+
+
+
+
+@keyframes loading1{
+    from{
+        opacity: 0.0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+
+    }
+}
+
+
+
+#kouhao{
+    font-size: 400%;
+    color:white;
+    position: fixed;
+    left: 60%;
+    top:20%;
+
+    animation: loading1;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+
+}
+@keyframes loading2{
+    from{
+
+        opacity: 0.0;
+    }
+
+    100%{
+        display: block;
+        opacity: 1;
+        margin-left: 10%;
+    }
+}
+
+#form1,#form2,#form3,#form4{
+    display: block;
+    animation: loading2;
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    margin-top:10%;margin-left:5%;width: 40%;height: 35%
+}
+#form2{
+    margin-top: 1%;
+    animation-duration: 1.5s;
+    /*animation-timing-function: ease-out;*/
+}
+#form3{
+    margin-top: 1%;
+    animation-duration: 2s;
+    /*animation-timing-function: ease-out;*/
+}
+#form4{
+    margin-top: 1%;
+    animation-duration: 2.5s;
+    /*animation-timing-function: ease-out;*/
+}
+.panel-heading{
+    background-color: #222;
+    border-color: #080808;
+    color: white;
+}
