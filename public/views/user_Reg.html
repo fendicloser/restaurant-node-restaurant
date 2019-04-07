@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="shortcut icon" href="../ico/icon.png">
+    <link rel="stylesheet" href="../css/user_reg.css">
 </head>
 <body>
 
+<div id="login-box">
+    <div class="left">
+        <h1>user sign in(注册)</h1>
 
-<h2>user sign in(注册)</h2>
-<form method="post" action="/user/registered">
+            <form method="post" action="/user/registered">
+                <input type="text" name="userNickName" placeholder="用户名"><br>
+                <input type="text" name="userPhone" placeholder="手机号"><br>
+                <input type="text" name ="userPassowrd" placeholder="密码"><br>
+                <input type="text" name="email" placeholder="email"><br>
 
-    <!--+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;+-->
-    <!--| Field        | Type        | Null | Key | Default | Extra |-->
-    <!--+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;+-->
-    <!--| userID       | int(11)     | YES  |     | NULL    |       |-->
-    <!--| userNickName | varchar(20) | YES  |     | NULL    |       |-->
-    <!--| userPhone    | varchar(20) | YES  |     | NULL    |       |-->
-    <!--| userPassowrd | varchar(20) | YES  |     | NULL    |       |-->
-    <!--| isBoss       | int(2)      | YES  |     | NULL    |       |-->
-    <!--| identify     | varchar(20) | YES  |     | NULL    |       |-->
-    <!--| email        | varchar(20) | YES  |     | NULL    |       |-->
-    <!--+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;+-&#45;&#45;&#45;&#45;&#45;&#45;+-->
-    <!---->
+                <input type="submit">
 
 
-    在提交上面应该有验证码或其他的以提高网站安全性，如果注册成功去到一个页面，注册失败重新回到本页面
-
-    用户名<input type="text" name="userNickName"><br>
-    手机号<input type="text" name="userPhone"><br>
-    密码<input type="text" name ="userPassowrd"><br>
-    email<input type="text" name="email"><br>
-
-    <input type="submit">
+            </form>
 
 
-</form>
+    </div>
+
+    <div class="right">
+        <span class="loginwith">Sign in with<br />social network</span>
+
+        <button class="social-signin facebook">Log in with facebook</button>
+        <button class="social-signin twitter">Log in with Twitter</button>
+        <button class="social-signin google">Log in with Google+</button>
+    </div>
+    <div class="or">OR</div>
+</div>
 
 </body>
 </html>

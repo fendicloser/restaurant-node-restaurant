@@ -3,23 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+
+    <link rel="shortcut icon" href="../ico/icon.png">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/user_login.css">
 </head>
 <body>
 
 
-<h2>user sign up(登陆)</h2>
-<form method="post" action="/user/login">
-
-    用户名<input type="text" name="userNickName"><br>
-
-    密码<input type="text" name ="userPassowrd"><br>
-
-    验证码
-
-    <input type="submit">
 
 
-</form>
+
+
+<h1>成功后应该成功重定向到selectAll页面</h1>
+<div id="login-box">
+    <div class="left">
+        <h1>Sign up（登陆）</h1>
+
+        <form method="post" action="/user/login" onsubmit="return check()">
+            <br>
+            <br>
+            <input type="text" name="userNickName" placeholder="userNickName"/>
+            <input type="text" name ="userPassowrd" placeholder="userPassowrd"/>
+            <input type="submit" id="submit" name="submit"/>
+
+        </form>
+    </div>
+
+    <div class="right">
+        <span class="loginwith">Sign in with<br />social network</span>
+
+        <button class="social-signin facebook">Log in with facebook</button>
+        <button class="social-signin twitter">Log in with Twitter</button>
+        <button class="social-signin google">Log in with Google+</button>
+    </div>
+    <div class="or">OR</div>
+</div>
+
+<script>
+
+//    function randomNum(minNum,maxNum){
+//        switch(arguments.length){
+//            case 1:
+//                return parseInt(Math.random()*minNum+1,10);
+//                break;
+//            case 2:
+//                return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+//                break;
+//            default:
+//                return 0;
+//                break;
+//        }
+//    }
+//    var first,second
+//    window.onload=function () {
+//        first=randomNum(1,100)
+//        second=randomNum(1,100)
+//        verfiyArea.innerHTML=`<span>${first}+${second}=？</span>`
+//    }
+//    function check(){
+//        var verifyInput=document.getElementById('verifyInput').value
+//        verifyInput=parseInt(verifyInput)
+//        var sum=first+second
+//        if(verifyInput==parseInt(sum)){
+//            return true
+//        }
+//        else{
+//            alert('验证码输入不正确 ')
+//        }
+//
+//        return false
+//    }
+
+
+
+
+
+</script>
+
+
 
 </body>
 </html>
