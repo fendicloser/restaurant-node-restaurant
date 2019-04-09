@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+
+font name: DrSugiyama-Regular
+font link: https://fonts.google.com/specimen/Dr+Sugiyama
+font author: Sudtipos
+font author site: https://www.sudtipos.com/
+
+icon designer: Max Hancock
+icon designer link: /maxhancock
+        
+{"bg-gradient-0":"#E98C00","bg-gradient-1":"#8F5BFE","icon":"#ffffff","font":"#ffffff"}
+      
