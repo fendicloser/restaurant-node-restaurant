@@ -8,9 +8,9 @@ var querystring=require('querystring')
 router.use(bodyParser.urlencoded({extended:false}))
 
 
-//注册，登陆，
-//注销，修改密码
+
 router.post('/login',function(req,res){
+    console.log(req.body)
     var num = 400
     var obj = req.body
     for(var index in req.body){
@@ -27,10 +27,15 @@ router.post('/login',function(req,res){
                 res.send({code:300,msg:'username incorrect'})
             }
             else{
+                //console.log(result[0].userID)
                 pool.query('select * from user where userID=?',[result[0].userID],function(err,result){
                     if(!err){
                         if(result[0].userPassowrd==obj.userPassowrd){
-                            res.send({code:200,msg:'login success'})
+                            req.session.loginUser=obj.userNickName
+                            res.json([{'code':'200','text':'success'}])
+
+
+                           // console.log('ddddd'+req.session.loginUser)
 
                         }
                         else {
@@ -43,7 +48,69 @@ router.post('/login',function(req,res){
         }
         else throw err
     })
+
 })
+
+
+//    /user/welcomeUser
+router.post('/welcomeUser',function (req,res) {
+    if(req.session.loginUser){
+        res.json([{'code':'200','text':req.session.loginUser}])
+    }
+    else{
+        res.json([{'code':'201','text':'not Login'}])
+    }
+})
+
+router.get('/logout',function(req,res){
+    req.session.loginUser=null
+    res.json([{'code':'200','text':'logout success'}])
+})
+
+
+
+
+
+
+
+
+
+
+router.post('/checkNickName',function (req,res) {
+
+    var sql='select * from user where userNickName=?'
+    pool.query(sql,[req.body.userNickName],function (err,result) {
+        if(!err){
+            if(result.length>0){
+                res.json([{'code':'300','text':'用户名已被使用'}])
+            }
+            else res.json([{'code':'200','text':'用户名可用'}])
+        }
+        else throw err
+    })
+})
+router.post('/checkPassword',function(req,res){
+
+    var checkNum=/[0-9]/
+    var checkCap=/[a-z]/
+   // console.log(req.body.userPassowrd)
+    if(checkNum.test(req.body.userPassowrd)&&checkCap.test(req.body.userPassowrd)){
+        res.send('密码可用')
+    }else{
+        if(!checkNum.test(req.body.userPassowrd)&&checkCap.test(req.body.userPassowrd)){
+            res.send('密码必须含有数字')
+        }else if(checkNum.test(req.body.userPassowrd)&&!checkCap.test(req.body.userPassowrd)){
+            res.send('密码必须含有字母')
+        }else{
+            res.send('密码必须含有数字和字母')
+        }
+
+    }
+
+})
+
+//注册，登陆，
+//注销，修改密码
 
 //用户修改密码
 
