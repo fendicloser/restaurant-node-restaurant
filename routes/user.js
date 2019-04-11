@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({extended:false}))
 
 
 router.post('/login',function(req,res){
-    console.log(req.body)
+    //sw2console.log(req.body)
     var num = 400
     var obj = req.body
     for(var index in req.body){
@@ -33,10 +33,6 @@ router.post('/login',function(req,res){
                         if(result[0].userPassowrd==obj.userPassowrd){
                             req.session.loginUser=obj.userNickName
                             res.json([{'code':'200','text':'success'}])
-
-
-                           // console.log('ddddd'+req.session.loginUser)
-
                         }
                         else {
                             res.send({code:301,msg:'password incorrected'})
@@ -54,6 +50,17 @@ router.post('/login',function(req,res){
 
 //    /user/welcomeUser
 router.post('/welcomeUser',function (req,res) {
+    if(req.session.loginUser){
+        res.json([{'code':'200','text':req.session.loginUser}])
+    }
+    else{
+        res.json([{'code':'201','text':'not Login'}])
+    }
+})
+
+
+
+router.get('/checkWhetherLogin',function (req,res) {
     if(req.session.loginUser){
         res.json([{'code':'200','text':req.session.loginUser}])
     }
@@ -129,7 +136,7 @@ router.post('/changPW',function(req,res){
     var newpwd=req.body.newpwd
 
     pool.query('select * from user where userNickName=?',[NickName],function(err,result){
-        console.log(result)
+        //console.log(result)
         if(!err){
             if(result[0]==undefined){
                 res.send('找不到对象')

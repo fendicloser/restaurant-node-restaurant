@@ -9,19 +9,20 @@ const formidable = require("formidable");
 var router = express.Router()
 
 var bodyParser=require('body-parser')
+
 var pool=require('../pool')
 var querystring=require('querystring')
 router.use(bodyParser.urlencoded({extended:false}))
 
 
 
+
 //首页按照输入框内容查询数据库的ajax
 router.get('/selectAll',function(req,res){
-    console.log(req.query)
-
+    //console.log(req.query)
     pool.query('select * from restaurant',[],function (err,result) {
         if(!err){
-            console.log(result)
+            //console.log(result)
             res.json(result)
         }
         else throw err
@@ -68,7 +69,7 @@ router.post('/addRestaurant',function(req,res){
             throw err
             return
         }
-        console.log(files.picture.length)
+        //console.log(files.picture.length)
         var picturePath=''
         for(var i=0;i<files.picture.length;i++){
             var t = sd.format(new Date(),'MMDDHHmm');
@@ -82,7 +83,7 @@ router.post('/addRestaurant',function(req,res){
                     fs.renameSync(oldName,newName)//重命名，会在static文件夹下生成新的图片文件
                 }
         }
-        console.log(picturePath)
+        //console.log(picturePath)
         if(picturePath.length!=0){
             pool.query('select * from user where userNickName=?',[fields.resBoss],function (err,result) {
                 //先检查有没有这个用户
@@ -112,9 +113,9 @@ router.post('/addRestaurant',function(req,res){
         //把生成的文件复制到bossRestaurantImage中。
         var pictureArr=picturePath.split('#')
         for(var j=0;j<pictureArr.length;j++){
-            console.log(pictureArr[j])
+            //console.log(pictureArr[j])
             if(pictureArr[j].length>=1&&fs.existsSync(__dirname+'/../'+pictureArr[j])){
-                console.log('存在')
+                //console.log('存在')
                 fs.copyFileSync(__dirname+'/../'+pictureArr[j],__dirname+'/../public/images/bossRestaurantImage/'+pictureArr[j])
 
                 fs.unlinkSync(__dirname+'/../'+pictureArr[j])
@@ -140,6 +141,54 @@ router.get('/restaurant_detail',function (req,res) {
     })
     //res.send(req.query)
     // pool.query('select * from restaurant where uid')
+})
+
+//res应该多加一列：评分人数
+//user应该多加一列：collect
+router.post('/restaurant_commit',function (req,res) {
+
+    //console.log(req.body)
+    var resID=req.body.resID;
+    var commiter=req.body.commiter;
+    var start=req.body.start
+    var fileDir1,fileDir2
+    if(req.body.canvas1!='no'){
+        var img1Data = req.body.canvas1.replace(/^data:image\/\w+;base64,/, "");
+        //准备第一个图的材料，路径/buffer
+        var dataBuffer = Buffer.from(img1Data, 'base64');
+        var t ='1_'+sd.format(new Date(),'MMDDHHmm');
+        //生成随机数
+        var ran = parseInt(Math.random() * 89 +100);
+        fileDir1=__dirname+'/../public/images/customerRestaurantImage/'+resID+t+'_'+ran+'.jpeg'
+        fs.writeFile(fileDir1,dataBuffer,function(err){
+            if(err){
+                throw err
+            }
+        })
+    }else{
+        fileDir1=''
+    }
+    if(req.body.canvas2!='no'){
+        var img2Data = req.body.canvas2.replace(/^data:image\/\w+;base64,/, "");
+        //准备第一个图的材料，路径/buffer
+        var dataBuffer = Buffer.from(img2Data, 'base64');
+        var t ='2_'+sd.format(new Date(),'MMDDHHmm');
+        //生成随机数
+        var ran = parseInt(Math.random() * 89 +100);
+        fileDir2=__dirname+'/../public/images/customerRestaurantImage/'+resID+t+'_'+ran+'.jpeg'
+        fs.writeFile(fileDir2,dataBuffer,function(err){
+            if(err){
+                throw err
+            }
+        })
+    }else{
+        fileDir2=''
+    }
+
+    var commitArr=[]//评论数组应该包括 评论人，所给分数，推荐，优点，缺点，如果有图片，存图片路径；
+
+
+    res.json({'code':'200','text':'commit success'})
 })
 
 
