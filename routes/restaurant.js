@@ -130,12 +130,20 @@ router.post('/addRestaurant',function(req,res){
 
 //    /restaurant/selectAll
 
-
-
+//var pictureStr='#'+dataR[0].picpath
+// resID:dataR[0].resID,
+//     resName:dataR[0].resName,
+//     resBoss:dataR[0].resBoss,
+//     resType:dataR[0].resType,
+//     latitude:dataR[0].latitude,
+//     longitude:dataR[0].longitude,
+//     start:dataR[0].start,
+//     price:dataR[0].price,
 router.get('/restaurant_detail',function (req,res) {
-    pool.query('select * from restaurant where resID=?',[req.query.resID],function (err,result) {
+    pool.query('select resID, picpath,resName,resBoss,resType,latitude,longitude,start,price from restaurant where resID=?',[req.query.resID],function (err,result) {
         if(!err){
-            res.send(result)
+            console.log(result[0])
+            res.send(result[0])
         }
         else throw err
     })
@@ -184,11 +192,61 @@ router.post('/restaurant_commit',function (req,res) {
     }else{
         fileDir2=''
     }
+    var fileDir=fileDir1+'<>'+fileDir2//两个文件的位置由'<>'分开
+    var commitArr=[
+        commiter,
+        start,
+        req.body.recommended,
+        req.body.advantage,
+        req.body.disadvantage,
+        req.body.commitMain,fileDir]//评论数组应该包括 评论人，所给分数，推荐，优点，缺点，如果有图片，存图片路径；
+    var commitText='^&^'+commitArr.join('#$#')//每个评论用'^&^'分割，每条评论中的每条元素用#$#分
+    var sql=`update restaurant set commit=CONCAT(commit,?) where resID=?`
+    pool.query(sql,[commitText,resID],function (err,result) {
+             if(!err){
+                 res.json({'code':'200','text':'commit success'})
+                 //进行评分
+                 pool.query('select commit from restaurant where resID=?',[resID],function(err,result){
 
-    var commitArr=[]//评论数组应该包括 评论人，所给分数，推荐，优点，缺点，如果有图片，存图片路径；
+                     console.log(result)
+                     if(!err){
+                         var numOfStarted=0
+                         var numOfStartedHum=0
+                         var finalStar
+                         if(result[0].commit===undefined){
+                             finalStar=req.body.start
+                         }
+                         else{
+                             var commit=result[0].commit.split('^&^')
+                             commit.shift()
+                             for(var i=0;i<commit.length;i++){
+                                 var commitIArr=commit[i].split('#$#')
+                                 if(commitIArr[1]!='0'){//可能有些人没评分
+                                     numOfStarted=numOfStarted+parseInt(commitIArr[1])
+                                     numOfStartedHum=numOfStartedHum+1
+                                 }
+                             }
+                             finalStar=numOfStarted/numOfStartedHum
+                             finalStar=finalStar.toFixed(1)
+
+                         }
+                         pool.query('update restaurant set start=? where resID=?',[finalStar,resID],function (err,result) {
+                             if(!err){
+                                 console.log('评分成功')
+                             }else throw err
+                         })
+                     }
+                 })
+             }else
+             {
+                res.json({'code':'201','text':'commit failed'})
+             }
+    })
 
 
-    res.json({'code':'200','text':'commit success'})
+
+
+
 })
 
 
