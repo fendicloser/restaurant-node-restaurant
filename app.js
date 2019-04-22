@@ -64,7 +64,6 @@ app.get('/',function (req,res) {
 
 var WebSocketServer = require('ws').Server,
     wss = new WebSocketServer({ port: 8181 });
-
 function bordcastData(data){
     wss.clients.forEach(ws=>{
         ws.send(data)
